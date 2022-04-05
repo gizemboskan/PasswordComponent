@@ -21,6 +21,7 @@ final class PasswordComponentViewController: UIViewController {
     }
 }
 
+// MARK: - Style & Layout
 private extension PasswordComponentViewController {
     func style() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +29,7 @@ private extension PasswordComponentViewController {
         stackView.spacing = 20.0
         
         newPasswordTextFieldView.translatesAutoresizingMaskIntoConstraints = false
+        newPasswordTextFieldView.delegate = self
         
         statusView.translatesAutoresizingMaskIntoConstraints = false
         statusView.layer.cornerRadius = 5.0
@@ -54,5 +56,14 @@ private extension PasswordComponentViewController {
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2.0),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+}
+
+// MARK: - PasswordTextFieldDelegate
+extension PasswordComponentViewController: PasswordTextFieldDelegate {
+    func editingChanged(_ sender: PasswordTextFieldView) {
+        if sender == newPasswordTextFieldView {
+            statusView.updateDisplay(sender.textField.text ?? "")
+        }
     }
 }

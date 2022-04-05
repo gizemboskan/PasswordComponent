@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol PasswordTextFieldDelegate: AnyObject {
+    func editingChanged(_ sender: PasswordTextFieldView)
+}
+
 final class PasswordTextFieldView: UIView {
     
     let lockImageView = UIImageView(image: UIImage(systemName:  "lock.fill"))
@@ -15,6 +19,8 @@ final class PasswordTextFieldView: UIView {
     let eyeButton = UIButton(type: .custom)
     let dividerView = UIView()
     let errorLabel = UILabel()
+    
+    weak var delegate: PasswordTextFieldDelegate?
     
     init(placeHolderText: String) {
         self.placeHolderText = placeHolderText
@@ -36,17 +42,19 @@ final class PasswordTextFieldView: UIView {
 private extension PasswordTextFieldView {
     func style() {
         translatesAutoresizingMaskIntoConstraints = false
-       //  backgroundColor = .orange
         
         lockImageView.translatesAutoresizingMaskIntoConstraints = false
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.isSecureTextEntry = false // true
         textField.placeholder = placeHolderText
-        // textField.delegate = self
+        textField.delegate = self
         textField.keyboardType = .asciiCapable
         textField.attributedPlaceholder = NSAttributedString(string: placeHolderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel])
         
+        
+        // extra interaction
+        textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         eyeButton.translatesAutoresizingMaskIntoConstraints = false
         eyeButton.setImage(UIImage(systemName: "eyes"), for: .normal)
         eyeButton.setImage(UIImage(systemName: "eyebrow"), for: .selected)
@@ -61,7 +69,7 @@ private extension PasswordTextFieldView {
         errorLabel.text = "Your password must meet the requirements below."
         errorLabel.numberOfLines = 0
         errorLabel.lineBreakMode = .byWordWrapping
-        errorLabel.isHidden = false // true
+        errorLabel.isHidden = true
     }
     
     func layout() {
@@ -118,4 +126,13 @@ private extension PasswordTextFieldView {
         textField.isSecureTextEntry.toggle()
         eyeButton.isSelected.toggle()
     }
+    
+    @objc func textFieldEditingChanged() {
+        delegate?.editingChanged(self)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension PasswordTextFieldView: UITextFieldDelegate {
+   
 }

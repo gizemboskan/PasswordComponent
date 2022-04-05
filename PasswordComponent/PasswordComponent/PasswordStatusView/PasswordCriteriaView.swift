@@ -43,7 +43,7 @@ class PasswordCriteriaView: UIView {
 }
 
 // MARK: - Helpers
-private extension PasswordCriteriaView {
+extension PasswordCriteriaView {
     func reset() {
         isCriteriaMet = false
         imageView.image = circleImage
