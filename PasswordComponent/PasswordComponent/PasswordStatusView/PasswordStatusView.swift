@@ -21,7 +21,7 @@ final class PasswordStatusView: UIView {
     let specialCharacterCriteriaView = PasswordCriteriaView(text: "specialCharacter (e.g. !@#$%)")
     
     // Used to determine if we reset criteria back to empty state (O)
-    private var shouldResetCriteria: Bool = true
+    var shouldResetCriteria: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,6 +39,7 @@ final class PasswordStatusView: UIView {
     }
 }
 
+// MARK: - Style & Layout
 private extension PasswordStatusView {
     
     func style() {
@@ -128,6 +129,39 @@ extension PasswordStatusView {
             specialCharacterMet
             ? specialCharacterCriteriaView.isCriteriaMet = true
             : specialCharacterCriteriaView.reset()
+        } else {
+            // focus lost (check or fail)
+            lengthCriteriaView.isCriteriaMet = lengthAndNoSpaceMet
+            uppercaseCriteriaView.isCriteriaMet = uppercaseMet
+            lowercaseCriteriaView.isCriteriaMet = lowercaseMet
+            digitCriteriaView.isCriteriaMet = digitMet
+            specialCharacterCriteriaView.isCriteriaMet = specialCharacterMet
         }
+    }
+    
+    func validate(_ text: String) -> Bool {
+        let uppercaseMet = PasswordCriteria.uppercaseMet(text)
+        let lowercaseMet = PasswordCriteria.lowercaseMet(text)
+        let digitMet = PasswordCriteria.digitMet(text)
+        let specialCharacterMet = PasswordCriteria.specialCharacterMet(text)
+        
+        // check for 3 of 4 criteria
+        let checkable = [uppercaseMet, lowercaseMet, digitMet, specialCharacterMet]
+        let metCriteria = checkable.filter { $0 }
+        let lengthAndNoSpaceMet = PasswordCriteria.lengthAndNoSpaceCriteriaMet(text)
+        
+        if lengthAndNoSpaceMet && metCriteria.count >= 3 {
+            return true
+        }
+        
+        return false
+    }
+    
+    func reset() {
+        lengthCriteriaView.reset()
+        uppercaseCriteriaView.reset()
+        lowercaseCriteriaView.reset()
+        digitCriteriaView.reset()
+        specialCharacterCriteriaView.reset()
     }
 }

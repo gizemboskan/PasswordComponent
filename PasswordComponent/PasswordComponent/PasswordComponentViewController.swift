@@ -9,6 +9,8 @@ import UIKit
 
 final class PasswordComponentViewController: UIViewController {
     
+    typealias CustomValidation = (_ textValue: String?) -> (Bool, String)?
+    
     let stackView = UIStackView()
     let newPasswordTextFieldView = PasswordTextFieldView(placeHolderText: "New password")
     let statusView = PasswordStatusView()
@@ -18,18 +20,73 @@ final class PasswordComponentViewController: UIViewController {
     override func viewDidLoad() {
         style()
         layout()
+        setup()
     }
 }
 
 // MARK: - Style & Layout
 private extension PasswordComponentViewController {
+    func setup() {
+        setupDismissKeyboardGesture()
+        setupNewPassword()
+        setupConfirmPassword()
+    }
+    
+    func  setupNewPassword() {
+        let newPasswordValidation: CustomValidation = { text in
+            
+            // Empty Text
+            guard let text = text, !text.isEmpty else {
+                self.statusView.reset()
+                return (false, "Enter your password")
+            }
+            
+            // Invalid Characters
+            let validChars = "abcdefghjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,@:?!()$#\\/"
+            let invalidSet = CharacterSet(charactersIn: validChars).inverted
+            guard text.rangeOfCharacter(from: invalidSet) == nil else {
+                self.statusView.reset()
+                return (false, "Enter valid special chars (.,@:?!()$#\\/) with no spaces.")
+            }
+            
+            // Criteria met
+            self.statusView.updateDisplay(text)
+            if !self.statusView.validate(text) {
+                return (false, "Your password must meet the requirements below.")
+            }
+            
+            return (true, "")
+        }
+        newPasswordTextFieldView.customValidation = newPasswordValidation
+        newPasswordTextFieldView.delegate = self
+    }
+    
+    func setupConfirmPassword() {
+        let confirmPasswordValidation: CustomValidation = { text in
+            
+            // Empty Text
+            guard let text = text, !text.isEmpty else {
+                return(false, "Enter your password")
+            }
+            
+            // Passwords match
+            guard text == self.newPasswordTextFieldView.text else  {
+                return(false, "Passwords do not match.")
+            }
+            
+            return (true, "")
+        }
+        confirmPasswordTextFieldView.customValidation = confirmPasswordValidation
+        confirmPasswordTextFieldView.delegate = self
+    }
+    
+    
     func style() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 20.0
         
         newPasswordTextFieldView.translatesAutoresizingMaskIntoConstraints = false
-        newPasswordTextFieldView.delegate = self
         
         statusView.translatesAutoresizingMaskIntoConstraints = false
         statusView.layer.cornerRadius = 5.0
@@ -64,6 +121,16 @@ extension PasswordComponentViewController: PasswordTextFieldDelegate {
     func editingChanged(_ sender: PasswordTextFieldView) {
         if sender == newPasswordTextFieldView {
             statusView.updateDisplay(sender.textField.text ?? "")
+        }
+    }
+    
+    func editingDidEnd(_ sender: PasswordTextFieldView) {
+        if sender == newPasswordTextFieldView {
+            // as soon as we lose focus, make (X) appear
+            statusView.shouldResetCriteria = false
+            _ = newPasswordTextFieldView.validate()
+        } else if sender == confirmPasswordTextFieldView {
+            _ = confirmPasswordTextFieldView.validate()
         }
     }
 }
