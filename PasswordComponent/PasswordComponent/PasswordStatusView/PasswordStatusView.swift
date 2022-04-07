@@ -20,7 +20,7 @@ final class PasswordStatusView: UIView {
     let digitCriteriaView = PasswordCriteriaView(text: "digit (0-9)")
     let specialCharacterCriteriaView = PasswordCriteriaView(text: "specialCharacter (e.g. !@#$%)")
     
-    // Used to determine if we reset criteria back to empty state (O)
+    // Used to determine if we reset criteria back to empty state (⚪️)
     var shouldResetCriteria: Bool = true
     
     override init(frame: CGRect) {
@@ -109,7 +109,7 @@ extension PasswordStatusView {
         let specialCharacterMet = PasswordCriteria.specialCharacterMet(text)
         
         if shouldResetCriteria {
-            // Inline validation for check or non-check
+            // Inline validation for check (✅) or non-check (❌)
             lengthAndNoSpaceMet
             ? lengthCriteriaView.isCriteriaMet = true
             : lengthCriteriaView.reset()
@@ -163,5 +163,20 @@ extension PasswordStatusView {
         lowercaseCriteriaView.reset()
         digitCriteriaView.reset()
         specialCharacterCriteriaView.reset()
+    }
+}
+
+// MARK: - Tests
+extension PasswordCriteriaView {
+    var isCheckMarkImage: Bool {
+        imageView.image == checkmarkImage
+    }
+    
+    var isXmarkImage: Bool {
+        imageView.image == xmarkImage
+    }
+    
+    var isResetImage: Bool {
+        imageView.image == circleImage
     }
 }

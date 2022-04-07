@@ -17,6 +17,8 @@ final class PasswordComponentViewController: UIViewController {
     let confirmPasswordTextFieldView = PasswordTextFieldView(placeHolderText: "Re-enter new password")
     let resetButton = UIButton(type: .system)
     
+    var alert: UIAlertController?
+    
     override func viewDidLoad() {
         style()
         layout()
@@ -137,7 +139,7 @@ extension PasswordComponentViewController: PasswordTextFieldDelegate {
 }
 
 // MARK: - Actions
-private extension PasswordComponentViewController {
+extension PasswordComponentViewController {
     @objc func resetButtonTapped() {
         view.endEditing(true)
         
@@ -147,5 +149,29 @@ private extension PasswordComponentViewController {
         if isValidNewPassword && isValidConfirmPassword {
             showAlert(title: "Success!", message: "You have successfully changed your password.")
         }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        alert =  UIAlertController(title: "", message: "", preferredStyle: .alert)
+        guard let alert = alert else { return }
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        alert.title = title
+        alert.message = message
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Test
+extension PasswordComponentViewController {
+    var newPaswordText: String? {
+        get { return newPasswordTextFieldView.text }
+        set { newPasswordTextFieldView.text = newValue }
+    }
+    
+    var confirmPasswordText: String? {
+        get { return confirmPasswordTextFieldView.text }
+        set { confirmPasswordTextFieldView.text = newValue }
     }
 }

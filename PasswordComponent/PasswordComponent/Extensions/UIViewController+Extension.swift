@@ -48,15 +48,3 @@ extension UIViewController {
         view.frame.origin.y = 0
     }
 }
-
-// Show alert
-extension UIViewController {
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        alert.title = title
-        alert.message = message
-        present(alert, animated: true, completion: nil)
-    }
-}
