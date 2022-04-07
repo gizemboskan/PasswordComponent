@@ -98,7 +98,7 @@ private extension PasswordComponentViewController {
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         resetButton.configuration = .filled()
         resetButton.setTitle("Reset password", for: [])
-        //        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .primaryActionTriggered)
+        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .primaryActionTriggered)
     }
     
     func layout() {
@@ -132,6 +132,20 @@ extension PasswordComponentViewController: PasswordTextFieldDelegate {
             _ = newPasswordTextFieldView.validate()
         } else if sender == confirmPasswordTextFieldView {
             _ = confirmPasswordTextFieldView.validate()
+        }
+    }
+}
+
+// MARK: - Actions
+private extension PasswordComponentViewController {
+    @objc func resetButtonTapped() {
+        view.endEditing(true)
+        
+        let isValidNewPassword = newPasswordTextFieldView.validate()
+        let isValidConfirmPassword = confirmPasswordTextFieldView.validate()
+        
+        if isValidNewPassword && isValidConfirmPassword {
+            showAlert(title: "Success!", message: "You have successfully changed your password.")
         }
     }
 }
