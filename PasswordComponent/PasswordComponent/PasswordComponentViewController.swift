@@ -9,7 +9,7 @@ import UIKit
 
 final class PasswordComponentViewController: UIViewController {
     
-    typealias CustomValidation = (_ textValue: String?) -> (Bool, String)?
+    typealias CustomValidation = PasswordTextFieldView.CustomValidation
     
     let stackView = UIStackView()
     let newPasswordTextFieldView = PasswordTextFieldView(placeHolderText: "New password")
@@ -30,6 +30,7 @@ private extension PasswordComponentViewController {
         setupDismissKeyboardGesture()
         setupNewPassword()
         setupConfirmPassword()
+        setupKeyboardHiding()
     }
     
     func  setupNewPassword() {
