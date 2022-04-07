@@ -20,6 +20,7 @@
 		7A6B6CF427FB2C9A00FFC442 /* PasswordStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6B6CF327FB2C9A00FFC442 /* PasswordStatusView.swift */; };
 		7A6B6CF627FC9D7300FFC442 /* PasswordCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6B6CF527FC9D7300FFC442 /* PasswordCriteria.swift */; };
 		7A6B6CF927FD8E3100FFC442 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6B6CF827FD8E3100FFC442 /* UIViewController+Extension.swift */; };
+		7A6B6D0027FE325700FFC442 /* UIResponder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6B6CFF27FE325700FFC442 /* UIResponder+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		7A6B6CF327FB2C9A00FFC442 /* PasswordStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStatusView.swift; sourceTree = "<group>"; };
 		7A6B6CF527FC9D7300FFC442 /* PasswordCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCriteria.swift; sourceTree = "<group>"; };
 		7A6B6CF827FD8E3100FFC442 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		7A6B6CFF27FE325700FFC442 /* UIResponder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				7A6B6CF827FD8E3100FFC442 /* UIViewController+Extension.swift */,
+				7A6B6CFF27FE325700FFC442 /* UIResponder+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				7A6B6CEF27FAEC6200FFC442 /* PasswordTextFieldView.swift in Sources */,
 				7A6B6CEC27FAEB7500FFC442 /* PasswordComponentViewController.swift in Sources */,
 				7A6B6CF427FB2C9A00FFC442 /* PasswordStatusView.swift in Sources */,
+				7A6B6D0027FE325700FFC442 /* UIResponder+Extension.swift in Sources */,
 				7A6B6CF127FB1D0F00FFC442 /* PasswordCriteriaView.swift in Sources */,
 				7A6B6CF627FC9D7300FFC442 /* PasswordCriteria.swift in Sources */,
 				7A6B6CB627FAEAC400FFC442 /* AppDelegate.swift in Sources */,
